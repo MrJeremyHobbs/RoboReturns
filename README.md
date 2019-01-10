@@ -1,4 +1,4 @@
-![Alt text](https://github.com/MrJeremyHobbs/RoboReturns/blob/master/logo_large.png?raw=true "Title")
+![Alt text](https://github.com/MrJeremyHobbs/RoboReturns/blob/master/images/logo_large.png?raw=true "Title")
 # RoboReturns
 RoboReturns is for returning books in bulk for libraries using Ex Libris' Alma LMS. 
 
