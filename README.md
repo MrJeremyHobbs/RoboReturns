@@ -15,4 +15,4 @@ It is a portable app that can run locally on your desktop or else a usb flash dr
 Check the [releases](https://github.com/MrJeremyHobbs/RoboReturns/releases) tab above for a downloadable zip.
 
 ## Documentation
-Documentation is included. You can also view it by clicking [here](https://github.com/MrJeremyHobbs/RoboReturns/blob/master/docs/RoboReturn_3_0.pdf).
+Documentation is included. You can also view it by clicking [here](https://github.com/MrJeremyHobbs/RoboReturns/blob/master/docs/RoboReturns_3_0.pdf).
