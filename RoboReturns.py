@@ -100,13 +100,21 @@ def main(*args):
             gui.insert_text(counter, (barcode, item.title, "Error", 
                          scan_return.error_msg), 'error')
             continue
+        
         if scan_return.successful == True:
             if "Queue: 0" in scan_return.additional_info:
                 counter += 1
-                increment = 100 / row_count
+                
+                # if file only has a single line of barcodes, you will get a div by zero error
+                try:
+                    increment = 100 / row_count
+                except:
+                    increment = 100 / 1
+                
                 gui.insert_text(counter, (barcode, item.title, "Returned", 
                                           scan_return.additional_info), 'success')
                 gui.progress_bar.step(increment)
+            
             if "Queue: 0" not in scan_return.additional_info:
                 counter += 1
                 increment = 100 / row_count
