@@ -70,7 +70,7 @@ def main(*args):
         # skip header
         if config.barcode_column_header != "" and counter == 0:
             counter += 1
-            gui.insert_text(counter, ("n/a", "n/a", "Skipped", "Spreadsheet header."), 'attention')
+            gui.insert_text(counter, ("n/a", "n/a", "Skipped", "Spreadsheet header."), 'success')
             continue
         
         # get item record
@@ -276,7 +276,12 @@ class gui:
     def save_log(self):
         current_date = datetime.datetime.now()
         current_date_formatted = current_date.strftime("%Y-%m-%d__%H%M%S")
-        saved_log = open(f"{config.log_directory}robo_returns_log_{current_date_formatted}.csv", "w", encoding="utf-8", newline='')
+        
+        try:
+            saved_log = open(f"{config.log_directory}robo_returns_log_{current_date_formatted}.csv", "w", encoding="utf-8", newline='')
+        except:
+            saved_log = open(f"robo_returns_log_{current_date_formatted}.csv", "w", encoding="utf-8", newline='')
+        
         children = self.tree.get_children()
         for child in children:
             list = self.tree.item(child)["values"]
