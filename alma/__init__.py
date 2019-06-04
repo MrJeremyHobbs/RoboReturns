@@ -4,11 +4,11 @@ from urllib.parse import urlparse, quote
 
 # classes #####################################################################    
 class item_record:
-    def __init__(self, barcode, apikey):
+    def __init__(self, barcode, apikey, apikey_region):
         self.item_record = item_record
         
         # generate request url, escape special characters
-        url = f"https://api-na.hosted.exlibrisgroup.com/almaws/v1/items?view=label&item_barcode={barcode}&apikey={apikey}"
+        url = f"https://api-{apikey_region}.hosted.exlibrisgroup.com/almaws/v1/items?view=label&item_barcode={barcode}&apikey={apikey}"
         encoded_url = quote(url, safe='/:?=&', encoding=None, errors=None)
         self.r = requests.get(encoded_url)
         
@@ -110,7 +110,7 @@ class ret:
     def __init__(self):
         self.ret = ret
     
-    def post(self, apikey, library, circ_desk, register_in_house_use, mms_id, holding_id, item_pid, xml):
+    def post(self, apikey, apikey_region, library, circ_desk, register_in_house_use, mms_id, holding_id, item_pid, xml):
         headers = {
             'Content-Type': 'application/xml', 
             'Charset':'UTF-8', 
@@ -124,7 +124,7 @@ class ret:
             'register_in_house_use': register_in_house_use,
         }
         
-        base_url = 'https://api-na.hosted.exlibrisgroup.com/almaws/v1'
+        base_url = f'https://api-{apikey_region}.hosted.exlibrisgroup.com/almaws/v1'
         return_url = f"{base_url}/bibs/{mms_id}/holdings/{holding_id}/items/{item_pid}"
         
         r = requests.post(return_url, data=xml.encode('utf-8'), headers=headers, params=params)
@@ -132,8 +132,11 @@ class ret:
         dict = xmltodict.parse(xml)
         
         # normalize additional info
-        self.additional_info = dict['item']['additional_info']
-        self.additional_info = self.additional_info.replace("Item's destination is:", "Destination:")
+        try:
+            self.additional_info = dict['item']['additional_info']
+            self.additional_info = self.additional_info.replace("Item's destination is:", "Destination:")
+        except:
+            self.additional_info = ""
         
         # successful?
         if r.status_code != 200:

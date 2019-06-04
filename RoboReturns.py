@@ -83,7 +83,7 @@ def main(*args):
            barcode = barcode[:-config.suffix_trim]
         
         # get information from item record in Alma
-        item = alma.item_record(barcode, config.apikey)
+        item = alma.item_record(barcode, config.apikey, config.apikey_region)
         if item.found == False:
             counter += 1
             gui.insert_text(counter, (barcode, "n/a", "Error", item.error_msg), 
@@ -92,9 +92,10 @@ def main(*args):
         
         # return item
         scan_return = alma.ret()
-        scan_return.post(config.apikey, config.library, config.circ_desk, 
-                         config.register_in_house_use, item.mms_id, 
-                         item.holding_id, item.pid, item.xml)
+        scan_return.post(config.apikey, config.apikey_region, config.library, 
+                        config.circ_desk, 
+                        config.register_in_house_use, item.mms_id, 
+                        item.holding_id, item.pid, item.xml)
         if scan_return.successful == False:
             counter += 1
             gui.insert_text(counter, (barcode, item.title, "Error", 
@@ -165,6 +166,7 @@ class configs:
         self.delete_barcode_file     = c_dict['misc']['delete_barcode_file']
 
         self.key                     = c_dict['apikey']['key']
+        self.apikey_region           = c_dict['apikey']['region'].lower()
         
         self.download_directory      = c_dict['spreadsheet']['spreadsheet_directory'].replace('\\', '//')
         self.barcode_column_header   = c_dict['spreadsheet']['barcode_column_header']
